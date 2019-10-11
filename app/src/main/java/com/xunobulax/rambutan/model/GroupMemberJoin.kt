@@ -12,7 +12,7 @@ import androidx.room.ForeignKey
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("memberId"))]
 )
-class GroupMemberJoin(
+data class GroupMemberJoin(
     val groupId: Int,
     val memberId: Int
 )
