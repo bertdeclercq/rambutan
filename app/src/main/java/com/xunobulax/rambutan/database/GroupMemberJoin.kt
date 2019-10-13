@@ -1,8 +1,10 @@
-package com.xunobulax.rambutan.model
+package com.xunobulax.rambutan.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import com.xunobulax.rambutan.model.Group
+import com.xunobulax.rambutan.model.Member
 
 
 @Entity(
