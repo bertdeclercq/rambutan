@@ -1,12 +1,13 @@
 package com.xunobulax.rambutan.model
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class GroupTest {
 
     @Test
-    fun getName() {
+    fun testGroupNameEquals() {
+        val group = Group(1, "Family")
+        assertEquals("Family", group.name)
     }
 }

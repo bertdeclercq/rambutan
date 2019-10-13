@@ -1,20 +1,25 @@
 package com.xunobulax.rambutan.model
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class MemberTest {
 
     @Test
-    fun getFirstName() {
+    fun testFirstNameEquals() {
+        val member = Member(1, "John", "Doe", "johndoe@email.com")
+        assertEquals("John", member.firstName)
     }
 
     @Test
-    fun getLastName() {
+    fun testLastNameEquals() {
+        val member = Member(1, "John", "Doe", "johndoe@email.com")
+        assertEquals("Doe", member.lastName)
     }
 
     @Test
-    fun getEmail() {
+    fun testEmailEquals() {
+        val member = Member(1, "John", "Doe", "johndoe@email.com")
+        assertEquals("johndoe@email.com", member.email)
     }
 }
