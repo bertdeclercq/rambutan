@@ -7,19 +7,19 @@ class MemberTest {
 
     @Test
     fun testFirstNameEquals() {
-        val member = Member(1, "John", "Doe", "johndoe@email.com")
+        val member = Member(1, "John", "Doe", "johndoe@email.com", 1)
         assertEquals("John", member.firstName)
     }
 
     @Test
     fun testLastNameEquals() {
-        val member = Member(1, "John", "Doe", "johndoe@email.com")
+        val member = Member(1, "John", "Doe", "johndoe@email.com", 1)
         assertEquals("Doe", member.lastName)
     }
 
     @Test
     fun testEmailEquals() {
-        val member = Member(1, "John", "Doe", "johndoe@email.com")
+        val member = Member(1, "John", "Doe", "johndoe@email.com", 1)
         assertEquals("johndoe@email.com", member.email)
     }
 }
