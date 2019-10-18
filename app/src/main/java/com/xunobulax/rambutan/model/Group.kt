@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "groups")
 data class Group(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Int,
 
     @ColumnInfo(name = "group_name")
-    val name: String = ""
+    var name: String = ""
 )
