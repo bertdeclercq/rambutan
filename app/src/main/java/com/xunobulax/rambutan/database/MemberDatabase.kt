@@ -15,7 +15,8 @@ const val NAME = "member_database"
     entities = [
         Group::class,
         Member::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class MemberDatabase : RoomDatabase() {
 
