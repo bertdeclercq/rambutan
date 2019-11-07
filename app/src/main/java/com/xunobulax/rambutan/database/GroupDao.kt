@@ -1,9 +1,6 @@
 package com.xunobulax.rambutan.database
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.xunobulax.rambutan.model.Group
 
 
@@ -15,6 +12,9 @@ interface GroupDao {
 
     @Update
     fun updateGroup(group: Group)
+
+    @Delete
+    fun deleteGroup(group: Group)
 
     @Query("SELECT * FROM groups WHERE id = :key")
     fun get(key: Int): Group?
