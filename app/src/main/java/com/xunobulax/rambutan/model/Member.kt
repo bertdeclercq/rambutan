@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
 )
 data class Member(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
 
     @ColumnInfo(name = "first_name")
     var firstName: String = "",
@@ -29,5 +29,5 @@ data class Member(
     var email: String = "",
 
     @ColumnInfo(name = "group_id")
-    var groupId: Int
+    val groupId: Int
 )
