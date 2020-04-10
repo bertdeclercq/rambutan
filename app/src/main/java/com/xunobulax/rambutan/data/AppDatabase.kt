@@ -1,42 +1,38 @@
-package com.xunobulax.rambutan.database
+package com.xunobulax.rambutan.data
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.xunobulax.rambutan.model.Group
-import com.xunobulax.rambutan.model.Member
-
-
-const val NAME = "member_database"
+import androidx.room.TypeConverters
+import com.xunobulax.rambutan.utilities.DATABASE_NAME
 
 
 @Database(
     entities = [
-        Group::class,
-        Member::class],
+        Person::class],
     version = 1,
     exportSchema = false
 )
-abstract class MemberDatabase : RoomDatabase() {
+@TypeConverters(Converters::class)
+abstract class AppDatabase : RoomDatabase() {
 
-    abstract val groupDao: GroupDao
-    abstract val memberDao: MemberDao
+    abstract fun personDao(): PersonDao
 
     companion object {
 
         @Volatile
-        private var INSTANCE: MemberDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(context: Context): MemberDatabase {
+        fun getInstance(context: Context): AppDatabase {
             synchronized(this) {
                 var instance = INSTANCE
 
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
-                        MemberDatabase::class.java,
-                        NAME
+                        AppDatabase::class.java,
+                        DATABASE_NAME
                     )
                         .fallbackToDestructiveMigration()
                         .build()
