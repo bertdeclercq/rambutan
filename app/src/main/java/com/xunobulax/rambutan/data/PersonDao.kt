@@ -12,26 +12,26 @@ interface PersonDao {
     // queries returning LiveData are ran asynchronously
 
     @Query("SELECT * FROM people ORDER BY first_name")
-    fun getPeople(): List<Person>
+    fun getPeople(): LiveData<List<Person>>
 
     @Query("SELECT * FROM people ORDER BY birthday ASC")
-    fun getPeopleByBirthdayAsc(): List<Person>
+    fun getPeopleByBirthdayAsc(): LiveData<List<Person>>
 
     @Query("SELECT * FROM people ORDER BY birthday DESC")
-    fun getPeopleByBirthdayDesc(): List<Person>
+    fun getPeopleByBirthdayDesc(): LiveData<List<Person>>
 
     @Query("SELECT * FROM people WHERE id = :id")
-    fun getPerson(id: Int): Person
+    fun getPerson(id: Int): LiveData<Person>
 
     // suspend makes the methods asynchronous using Kotlin coroutines
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPerson(person: Person)
+    suspend fun insertPerson(person: Person)
 
     @Update
-    fun updatePerson(person: Person)
+    suspend fun updatePerson(person: Person)
 
     @Delete
-    fun deletePerson(person: Person)
+    suspend fun deletePerson(person: Person)
 
 }
