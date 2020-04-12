@@ -20,27 +20,24 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun personDao(): PersonDao
 
     companion object {
-
+        // Singleton prevents multiple instances of database opening at the same time
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var instance: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        AppDatabase::class.java,
-                        DATABASE_NAME
-                    )
-                        .fallbackToDestructiveMigration()
-                        .build()
-                }
-                INSTANCE = instance
-
-                return instance
+        fun getDatabase(context: Context): AppDatabase {
+            return instance ?: synchronized(this) {
+                instance ?: buildDatabase(context).also { instance = it }
             }
+        }
+
+        private fun buildDatabase(context: Context): AppDatabase {
+            return Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                DATABASE_NAME
+            )
+                .fallbackToDestructiveMigration()
+                .build()
         }
     }
 }
