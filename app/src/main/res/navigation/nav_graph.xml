@@ -9,5 +9,5 @@
         android:id="@+id/familyFragment"
         android:name="com.xunobulax.rambutan.ui.family.FamilyFragment"
         android:label="family_fragment"
-        tools:layout="@layout/family_fragment" />
+        tools:layout="@layout/fragment_family" />
 </navigation>
