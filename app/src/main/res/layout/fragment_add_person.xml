@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.person.AddPersonFragment">
+
+        <EditText
+            android:id="@+id/editFirstName"
+            android:layout_width="@dimen/length_normal"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:hint="@string/first_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editFamilyName"
+            android:layout_width="@dimen/length_normal"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:hint="@string/family_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editFirstName" />
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="@dimen/length_normal"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:hint="@string/email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editFamilyName" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
