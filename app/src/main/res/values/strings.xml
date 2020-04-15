@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Rambutan</string>
+
+    <string name="first_name">First Name</string>
+    <string name="family_name">Family Name</string>
+    <string name="email">E-mail</string>
+    <string name="partner">Partner</string>
 </resources>
