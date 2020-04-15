@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.xunobulax.rambutan.data.Person
-import com.xunobulax.rambutan.databinding.ListItemPersonBinding
+import com.xunobulax.rambutan.databinding.ItemPersonBinding
 
 
 class PersonAdapter : ListAdapter<Person, RecyclerView.ViewHolder>(PersonDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         PersonViewHolder(
-            ListItemPersonBinding.inflate(
+            ItemPersonBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
@@ -24,7 +24,7 @@ class PersonAdapter : ListAdapter<Person, RecyclerView.ViewHolder>(PersonDiffCal
     }
 
 
-    class PersonViewHolder(private val binding: ListItemPersonBinding) :
+    class PersonViewHolder(private val binding: ItemPersonBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Person) {
