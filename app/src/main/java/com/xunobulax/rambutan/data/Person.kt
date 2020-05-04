@@ -7,20 +7,20 @@ import java.time.LocalDate
 
 
 @Entity(tableName = "people")
-data class Person(
+data class Person @JvmOverloads constructor(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int = 0,
 
     @ColumnInfo(name = "first_name")
-    var firstName: String?,
+    var firstName: String? = "",
 
     @ColumnInfo(name = "last_name")
-    var lastName: String?,
+    var lastName: String? = "",
 
-    var email: String?,
+    var email: String? = "",
 
-    var birthday: LocalDate?,
+    var birthday: LocalDate? = null,
 
     @ColumnInfo(name = "partner_id")
-    var partnerId: Int?
+    var partnerId: Int? = null
 )

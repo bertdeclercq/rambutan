@@ -42,6 +42,11 @@ class PersonTest {
     }
 
     @Test
+    fun testBirthdayYear() {
+        assertEquals(2000, person.birthday?.year)
+    }
+
+    @Test
     fun testPartnerId() {
         assertEquals(2, person.partnerId)
     }

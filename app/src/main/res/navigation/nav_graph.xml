@@ -9,5 +9,18 @@
         android:id="@+id/familyFragment"
         android:name="com.xunobulax.rambutan.ui.family.FamilyFragment"
         android:label="family_fragment"
-        tools:layout="@layout/family_fragment" />
+        tools:layout="@layout/fragment_family">
+        <action
+            android:id="@+id/action_familyFragment_to_addPersonFragment"
+            app:destination="@id/addPersonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPersonFragment"
+        android:name="com.xunobulax.rambutan.ui.person.AddPersonFragment"
+        android:label="AddPersonFragment"
+        tools:layout="@layout/fragment_add_person" >
+        <action
+            android:id="@+id/action_addPersonFragment_to_familyFragment"
+            app:destination="@id/familyFragment" />
+    </fragment>
 </navigation>
