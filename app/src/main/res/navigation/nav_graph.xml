@@ -18,5 +18,9 @@
         android:id="@+id/addPersonFragment"
         android:name="com.xunobulax.rambutan.ui.person.AddPersonFragment"
         android:label="AddPersonFragment"
-        tools:layout="@layout/fragment_add_person" />
+        tools:layout="@layout/fragment_add_person" >
+        <action
+            android:id="@+id/action_addPersonFragment_to_familyFragment"
+            app:destination="@id/familyFragment" />
+    </fragment>
 </navigation>
