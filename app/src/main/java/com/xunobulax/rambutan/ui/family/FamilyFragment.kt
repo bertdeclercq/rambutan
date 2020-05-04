@@ -17,12 +17,6 @@ import java.time.LocalDate
 
 class FamilyFragment : Fragment() {
 
-    // This is a test list
-    private val people = arrayListOf(
-        Person(1, "John", "Doe", "johndoe@email.com", LocalDate.of(2020, 1, 25), 2),
-        Person(2, "Jane", "Doe", "janedoe@email.com", LocalDate.of(2000, 1, 25), 1)
-    )
-
     private val viewModel: FamilyViewModel by viewModels()
 
     private lateinit var addPersonFab: FloatingActionButton
@@ -37,7 +31,6 @@ class FamilyFragment : Fragment() {
 
         val adapter = PersonAdapter()
         binding.peopleRecyclerview.adapter = adapter
-//        adapter.submitList(people)
         subscribeUi(adapter)
 
         return binding.root
