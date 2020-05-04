@@ -24,7 +24,7 @@ class PersonAdapter : ListAdapter<Person, RecyclerView.ViewHolder>(PersonDiffCal
     }
 
 
-    class PersonViewHolder(private val binding: ItemPersonBinding) :
+    class PersonViewHolder internal constructor(private val binding: ItemPersonBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Person) {
