@@ -12,7 +12,4 @@ class FamilyViewModel(application: Application) : AndroidViewModel(application) 
 
     val people: LiveData<List<Person>> = personDao.getPeople()
 
-    fun addPerson() {
-
-    }
 }
