@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.person.AddPersonFragment">
 
     <data>
 
@@ -13,8 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.person.AddPersonFragment">
+        android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutFirstName"
@@ -86,16 +86,27 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/addPartner"
-            android:layout_width="@dimen/length_normal"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutPartner"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
-            android:text="@string/add_partner"
+            android:hint="@string/partner"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutBirthday" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutBirthday">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editPartner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:inputType="text"
+                android:onClick="@{() -> viewModel.onPartnerClicked()}"
+                android:text="@{viewModel.partnerName}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/addPerson"
             android:layout_width="@dimen/length_normal"
             android:layout_height="wrap_content"
@@ -103,7 +114,7 @@
             android:onClick="@{() -> viewModel.onAddPerson()}"
             android:text="@string/add_person"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addPartner" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutPartner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

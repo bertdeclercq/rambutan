@@ -62,4 +62,18 @@ class PersonDaoTest {
         assertThat(people[1], equalTo(personJohn))
     }
 
+    @Test
+    fun testGetPersonById() {
+        val person = personDao.getPerson(1).getOrAwaitValue()
+
+        assertThat(person, equalTo(personJohn))
+    }
+
+    @Test
+    fun testGetPartner() {
+        val partner = personJohn.partnerId?.let { personDao.getPerson(it) }?.getOrAwaitValue()
+
+        assertThat(partner, equalTo(personJane))
+    }
+
 }

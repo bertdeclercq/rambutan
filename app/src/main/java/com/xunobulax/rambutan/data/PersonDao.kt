@@ -21,12 +21,12 @@ interface PersonDao {
     fun getPeopleByBirthdayDesc(): LiveData<List<Person>>
 
     @Query("SELECT * FROM people WHERE id = :id")
-    fun getPerson(id: Int): LiveData<Person>
+    suspend fun getPerson(id: Long): Person
 
     // suspend makes the methods asynchronous using Kotlin coroutines
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPerson(person: Person)
+    suspend fun insertPerson(person: Person): Long?
 
     @Update
     suspend fun updatePerson(person: Person)

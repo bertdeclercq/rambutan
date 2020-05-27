@@ -6,55 +6,82 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import com.xunobulax.rambutan.R
+import com.xunobulax.rambutan.data.AppDatabase
 import com.xunobulax.rambutan.databinding.FragmentAddPersonBinding
 import kotlinx.android.synthetic.main.fragment_add_person.*
-import java.time.LocalDate
 
 
 class AddPersonFragment : Fragment() {
 
-    private val viewModel: AddPersonViewModel by viewModels()
-    private lateinit var binding: FragmentAddPersonBinding
+    private val viewModel: AddPersonViewModel by navGraphViewModels(R.id.edit_person_graph) {
+        AddPersonViewModelFactory(
+            AppDatabase.getDatabase(requireContext()).personDao()
+        )
+    }
+
+    private val args: AddPersonFragmentArgs by navArgs()
+
+    private val navController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAddPersonBinding.inflate(inflater, container, false)
-        context ?: binding.root
+        val binding = FragmentAddPersonBinding.inflate(inflater, container, false)
+        context ?: return binding.root
 
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.navigateToBirthdayPickerDialog.observe(viewLifecycleOwner, Observer {
+        val personId = args.personId
+
+        if (personId > 0) {
+            //TODO Get person from DB by id and set all fields
+            viewModel.loadPerson(personId)
+        }
+
+        viewModel.showBirthdayPickerDialog.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                DatePickerDialog(
-                    requireContext(),
-                    R.style.MySpinnerDatePickerStyle,
-                    DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                        updateBirthday(year, month.plus(1), dayOfMonth)
-                    },
-                    viewModel.person.birthday?.year ?: LocalDate.now().year,
-                    viewModel.person.birthday?.monthValue?.minus(1)
-                        ?: LocalDate.now().monthValue.minus(1),
-                    viewModel.person.birthday?.dayOfMonth ?: LocalDate.now().dayOfMonth
-                ).show()
+                showBirthdayPicker()
+                viewModel.doneNavigating()
             }
 
+        })
+
+        viewModel.navigateToPartnerFragment.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                navController.navigate(AddPersonFragmentDirections.actionAddPersonFragmentToPartnerFragment())
+                viewModel.doneNavigating()
+            }
         })
 
         viewModel.navigateToFamilyFragment.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                findNavController().navigate(AddPersonFragmentDirections.actionAddPersonFragmentToFamilyFragment())
+                navController.navigate(AddPersonFragmentDirections.actionAddPersonFragmentToFamilyFragment())
+                viewModel.doneNavigating()
             }
         })
+    }
+
+    private fun showBirthdayPicker() {
+        DatePickerDialog(
+            requireContext(),
+            R.style.MySpinnerDatePickerStyle,
+            DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                updateBirthday(year, month.plus(1), dayOfMonth)
+            },
+            viewModel.getYear(),
+            viewModel.getMonth().minus(1),
+            viewModel.getDayOfMonth()
+        ).show()
     }
 
     private fun updateBirthday(year: Int, month: Int, dayOfMonth: Int) {

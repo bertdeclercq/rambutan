@@ -1,15 +1,13 @@
 package com.xunobulax.rambutan.ui.family
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.xunobulax.rambutan.data.AppDatabase
+import androidx.lifecycle.ViewModel
 import com.xunobulax.rambutan.data.Person
+import com.xunobulax.rambutan.data.PersonDao
 
-class FamilyViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val personDao = AppDatabase.getDatabase(application.applicationContext).personDao()
+class FamilyViewModel(database: PersonDao) : ViewModel() {
 
-    val people: LiveData<List<Person>> = personDao.getPeople()
+    val people: LiveData<List<Person>> by lazy { database.getPeople() }
 
 }
