@@ -7,12 +7,18 @@
         <variable
             name="person"
             type="com.xunobulax.rambutan.data.Person" />
+
+        <variable
+            name="clickListener"
+            type="com.xunobulax.rambutan.adapters.PersonListener" />
+
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="@{() -> clickListener.onClick(person)}">
 
         <TextView
             android:id="@+id/personName"

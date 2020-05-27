@@ -10,14 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.xunobulax.rambutan.adapters.PersonAdapter
-import com.xunobulax.rambutan.data.Person
+import com.xunobulax.rambutan.adapters.PersonListener
+import com.xunobulax.rambutan.data.AppDatabase
 import com.xunobulax.rambutan.databinding.FragmentFamilyBinding
-import java.time.LocalDate
 
 
 class FamilyFragment : Fragment() {
 
-    private val viewModel: FamilyViewModel by viewModels()
+    private val viewModel: FamilyViewModel by viewModels {
+        FamilyViewModelFactory(
+            AppDatabase.getDatabase(requireContext()).personDao()
+        )
+    }
+
+    private val navController by lazy { findNavController() }
 
     private lateinit var addPersonFab: FloatingActionButton
 
@@ -29,7 +35,13 @@ class FamilyFragment : Fragment() {
 
         addPersonFab = binding.addPersonFab
 
-        val adapter = PersonAdapter()
+        val adapter = PersonAdapter(PersonListener { person ->
+            navController.navigate(
+                FamilyFragmentDirections.actionFamilyFragmentToEditPersonGraph(
+                    personId = person.id
+                )
+            )
+        })
         binding.peopleRecyclerview.adapter = adapter
         subscribeUi(adapter)
 
@@ -38,7 +50,7 @@ class FamilyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         addPersonFab.setOnClickListener {
-            findNavController().navigate(FamilyFragmentDirections.actionFamilyFragmentToAddPersonFragment())
+            navController.navigate(FamilyFragmentDirections.actionFamilyFragmentToEditPersonGraph())
         }
     }
 

@@ -8,19 +8,17 @@
     <fragment
         android:id="@+id/familyFragment"
         android:name="com.xunobulax.rambutan.ui.family.FamilyFragment"
-        android:label="family_fragment"
+        android:label="fragment_family"
         tools:layout="@layout/fragment_family">
         <action
-            android:id="@+id/action_familyFragment_to_addPersonFragment"
-            app:destination="@id/addPersonFragment" />
+            android:id="@+id/action_familyFragment_to_edit_person_graph"
+            app:destination="@id/edit_person_graph">
+            <argument
+                android:name="personId"
+                android:defaultValue="0L"
+                app:argType="long" />
+        </action>
     </fragment>
-    <fragment
-        android:id="@+id/addPersonFragment"
-        android:name="com.xunobulax.rambutan.ui.person.AddPersonFragment"
-        android:label="AddPersonFragment"
-        tools:layout="@layout/fragment_add_person" >
-        <action
-            android:id="@+id/action_addPersonFragment_to_familyFragment"
-            app:destination="@id/familyFragment" />
-    </fragment>
+    <include app:graph="@navigation/edit_person_graph" />
+
 </navigation>

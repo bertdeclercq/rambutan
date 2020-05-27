@@ -9,7 +9,7 @@ import com.xunobulax.rambutan.data.Person
 import com.xunobulax.rambutan.databinding.ItemPersonBinding
 
 
-class PersonAdapter : ListAdapter<Person, RecyclerView.ViewHolder>(PersonDiffCallback()) {
+class PersonAdapter(private val clickListener: PersonListener) : ListAdapter<Person, RecyclerView.ViewHolder>(PersonDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         PersonViewHolder(
@@ -19,22 +19,24 @@ class PersonAdapter : ListAdapter<Person, RecyclerView.ViewHolder>(PersonDiffCal
         )
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val person = getItem(position)
-        (holder as PersonViewHolder).bind(person)
+        val person = getItem(position) as Person
+        (holder as PersonViewHolder).bind(person, clickListener)
     }
 
 
     class PersonViewHolder internal constructor(private val binding: ItemPersonBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Person) {
+        fun bind(item: Person, clickListener: PersonListener) {
             binding.apply {
                 person = item
+                this.clickListener = clickListener
                 executePendingBindings()
             }
         }
     }
 }
+
 
 private class PersonDiffCallback : DiffUtil.ItemCallback<Person>() {
 
@@ -42,4 +44,9 @@ private class PersonDiffCallback : DiffUtil.ItemCallback<Person>() {
 
     override fun areContentsTheSame(oldItem: Person, newItem: Person) = oldItem == newItem
 
+}
+
+class PersonListener(val clickListener: (person: Person) -> Unit) {
+
+    fun onClick(person: Person) = clickListener(person)
 }
