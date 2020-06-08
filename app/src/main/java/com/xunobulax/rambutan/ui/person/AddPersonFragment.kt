@@ -13,7 +13,6 @@ import androidx.navigation.navGraphViewModels
 import com.xunobulax.rambutan.R
 import com.xunobulax.rambutan.data.AppDatabase
 import com.xunobulax.rambutan.databinding.FragmentAddPersonBinding
-import kotlinx.android.synthetic.main.fragment_add_person.*
 
 
 class AddPersonFragment : Fragment() {
@@ -41,10 +40,11 @@ class AddPersonFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        
         val personId = args.personId
 
-        if (personId > 0) {
-            //TODO Get person from DB by id and set all fields
+        if (personId > 0L) {
             viewModel.loadPerson(personId)
         }
 
@@ -53,7 +53,6 @@ class AddPersonFragment : Fragment() {
                 showBirthdayPicker()
                 viewModel.doneNavigating()
             }
-
         })
 
         viewModel.navigateToPartnerFragment.observe(viewLifecycleOwner, Observer {
@@ -76,17 +75,12 @@ class AddPersonFragment : Fragment() {
             requireContext(),
             R.style.MySpinnerDatePickerStyle,
             DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                updateBirthday(year, month.plus(1), dayOfMonth)
+                viewModel.setBirthday(year, month.plus(1), dayOfMonth)
             },
             viewModel.getYear(),
             viewModel.getMonth().minus(1),
             viewModel.getDayOfMonth()
         ).show()
-    }
-
-    private fun updateBirthday(year: Int, month: Int, dayOfMonth: Int) {
-        viewModel.setBirthday(year, month, dayOfMonth)
-        editBirthday.setText(viewModel.person.birthday.toString())
     }
 
 }
