@@ -12,25 +12,28 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.xunobulax.rambutan.R
 import com.xunobulax.rambutan.data.AppDatabase
-import com.xunobulax.rambutan.databinding.FragmentAddPersonBinding
+import com.xunobulax.rambutan.databinding.FragmentEditPersonBinding
+import com.xunobulax.rambutan.repositories.PeopleRepository
 
 
-class AddPersonFragment : Fragment() {
+class EditPersonFragment : Fragment() {
 
-    private val viewModel: AddPersonViewModel by navGraphViewModels(R.id.edit_person_graph) {
-        AddPersonViewModelFactory(
-            AppDatabase.getDatabase(requireContext()).personDao()
+    private val viewModel: EditPersonViewModel by navGraphViewModels(R.id.edit_person_graph) {
+        EditPersonViewModelFactory(
+            PeopleRepository(
+                AppDatabase.getDatabase(requireContext()).personDao()
+            )
         )
     }
 
-    private val args: AddPersonFragmentArgs by navArgs()
+    private val args: EditPersonFragmentArgs by navArgs()
 
     private val navController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentAddPersonBinding.inflate(inflater, container, false)
+        val binding = FragmentEditPersonBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
         binding.lifecycleOwner = this
@@ -41,7 +44,7 @@ class AddPersonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         val personId = args.personId
 
         if (personId > 0L) {
@@ -57,14 +60,14 @@ class AddPersonFragment : Fragment() {
 
         viewModel.navigateToPartnerFragment.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                navController.navigate(AddPersonFragmentDirections.actionAddPersonFragmentToPartnerFragment())
+                navController.navigate(EditPersonFragmentDirections.actionEditPersonFragmentToPartnerFragment())
                 viewModel.doneNavigating()
             }
         })
 
         viewModel.navigateToFamilyFragment.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                navController.navigate(AddPersonFragmentDirections.actionAddPersonFragmentToFamilyFragment())
+                navController.navigate(EditPersonFragmentDirections.actionEditPersonFragmentToFamilyFragment())
                 viewModel.doneNavigating()
             }
         })
@@ -75,7 +78,7 @@ class AddPersonFragment : Fragment() {
             requireContext(),
             R.style.MySpinnerDatePickerStyle,
             DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                viewModel.setBirthday(year, month.plus(1), dayOfMonth)
+                viewModel.onBirthdaySet(year, month.plus(1), dayOfMonth)
             },
             viewModel.getYear(),
             viewModel.getMonth().minus(1),

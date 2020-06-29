@@ -1,20 +1,19 @@
 package com.xunobulax.rambutan.data
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.time.LocalDate
 
 
 @Entity(
     tableName = "people",
-    foreignKeys = [ForeignKey(
-        entity = Person::class,
-        parentColumns = ["id"],
-        childColumns = ["partner_id"],
-        onDelete = ForeignKey.SET_NULL
-    )]
+//    foreignKeys = [ForeignKey(
+//        entity = Person::class,
+//        parentColumns = ["id"],
+//        childColumns = ["partner_id"],
+//        onDelete = ForeignKey.SET_NULL
+//    )],
+    indices = [Index(value = ["email"], unique = true),
+        Index(value = ["first_name", "last_name"], unique = true)]
 )
 data class Person @JvmOverloads constructor(
     @PrimaryKey(autoGenerate = true)
