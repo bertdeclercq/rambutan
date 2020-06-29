@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.person.AddPersonFragment">
+    tools:context=".ui.person.EditPersonFragment">
 
     <data>
 
         <variable
             name="viewModel"
-            type="com.xunobulax.rambutan.ui.person.AddPersonViewModel" />
+            type="com.xunobulax.rambutan.ui.person.EditPersonViewModel" />
 
     </data>
 
@@ -102,7 +102,7 @@
                 android:focusable="false"
                 android:inputType="text"
                 android:onClick="@{() -> viewModel.onPartnerClicked()}"
-                android:text="@{viewModel.partner.firstName}" />
+                android:text="@{viewModel.partnerName}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,7 +111,7 @@
             android:layout_width="@dimen/length_normal"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_normal"
-            android:onClick="@{() -> viewModel.onAddPerson()}"
+            android:onClick="@{() -> viewModel.onSavePerson()}"
             android:text="@string/add_person"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutPartner" />

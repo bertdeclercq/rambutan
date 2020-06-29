@@ -14,14 +14,17 @@ import com.xunobulax.rambutan.adapters.PersonAdapter
 import com.xunobulax.rambutan.adapters.PersonListener
 import com.xunobulax.rambutan.data.AppDatabase
 import com.xunobulax.rambutan.databinding.FragmentPartnerBinding
+import com.xunobulax.rambutan.repositories.PeopleRepository
 import kotlinx.android.synthetic.main.fragment_partner.view.*
 
 
 class PartnerFragment : Fragment() {
 
-    private val viewModel: AddPersonViewModel by navGraphViewModels(R.id.edit_person_graph) {
-        AddPersonViewModelFactory(
-            AppDatabase.getDatabase(requireContext()).personDao()
+    private val viewModel: EditPersonViewModel by navGraphViewModels(R.id.edit_person_graph) {
+        EditPersonViewModelFactory(
+            PeopleRepository(
+                AppDatabase.getDatabase(requireContext()).personDao()
+            )
         )
     }
 
@@ -34,8 +37,9 @@ class PartnerFragment : Fragment() {
         context ?: return binding.root
 
         val adapter = PersonAdapter(PersonListener { partner ->
-            viewModel.onPartnerPicked(partner)
-            navController.navigate(PartnerFragmentDirections.actionPartnerFragmentToAddPersonFragment())
+            viewModel.onPartnerSet(partner)
+//            viewModel.onPartnerPicked(partner)
+            navController.navigate(PartnerFragmentDirections.actionPartnerFragmentToEditPersonFragment())
         })
         binding.lifecycleOwner = this
         binding.peopleRecyclerview.adapter = adapter
@@ -49,7 +53,7 @@ class PartnerFragment : Fragment() {
     }
 
     private fun subscribeUi(adapter: PersonAdapter) {
-        viewModel.people.observe(viewLifecycleOwner, Observer { people ->
+        viewModel.partnersList.observe(viewLifecycleOwner, Observer { people ->
             adapter.submitList(people)
         })
     }

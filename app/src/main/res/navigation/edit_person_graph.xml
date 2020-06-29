@@ -3,18 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/edit_person_graph"
-    app:startDestination="@id/addPersonFragment"
+    app:startDestination="@id/editPersonFragment"
     tools:ignore="UnusedNavigation">
+
     <fragment
-        android:id="@+id/addPersonFragment"
-        android:name="com.xunobulax.rambutan.ui.person.AddPersonFragment"
+        android:id="@+id/editPersonFragment"
+        android:name="com.xunobulax.rambutan.ui.person.EditPersonFragment"
         android:label="fragment_add_person"
-        tools:layout="@layout/fragment_add_person">
+        tools:layout="@layout/fragment_edit_person">
         <action
-            android:id="@+id/action_addPersonFragment_to_familyFragment"
-            app:destination="@id/familyFragment" />
+            android:id="@+id/action_editPersonFragment_to_familyFragment"
+            app:destination="@id/nav_graph"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_addPersonFragment_to_partnerFragment"
+            android:id="@+id/action_editPersonFragment_to_partnerFragment"
             app:destination="@id/partnerFragment" />
         <argument
             android:name="personId"
@@ -27,9 +30,9 @@
         android:label="fragment_partner"
         tools:layout="@layout/fragment_partner">
         <action
-            android:id="@+id/action_partnerFragment_to_addPersonFragment"
-            app:destination="@id/addPersonFragment"
-            app:popUpTo="@id/addPersonFragment"
+            android:id="@+id/action_partnerFragment_to_editPersonFragment"
+            app:destination="@id/editPersonFragment"
+            app:popUpTo="@id/editPersonFragment"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

@@ -13,13 +13,16 @@ import com.xunobulax.rambutan.adapters.PersonAdapter
 import com.xunobulax.rambutan.adapters.PersonListener
 import com.xunobulax.rambutan.data.AppDatabase
 import com.xunobulax.rambutan.databinding.FragmentFamilyBinding
+import com.xunobulax.rambutan.repositories.PeopleRepository
 
 
 class FamilyFragment : Fragment() {
 
     private val viewModel: FamilyViewModel by viewModels {
         FamilyViewModelFactory(
-            AppDatabase.getDatabase(requireContext()).personDao()
+            PeopleRepository(
+                AppDatabase.getDatabase(requireContext()).personDao()
+            )
         )
     }
 
