@@ -107,13 +107,31 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/addPerson"
-            android:layout_width="@dimen/length_normal"
+            android:id="@+id/savePerson"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_normal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:onClick="@{() -> viewModel.onSavePerson()}"
-            android:text="@string/add_person"
+            android:text="@string/save_person"
+            app:layout_constraintEnd_toStartOf="@+id/deletePerson"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layoutPartner" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deletePerson"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.onDeletePerson()}"
+            android:layout_marginEnd="16dp"
+            android:text="@string/delete_person"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/savePerson"
             app:layout_constraintTop_toBottomOf="@+id/layoutPartner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

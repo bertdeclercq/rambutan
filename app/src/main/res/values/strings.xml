@@ -7,5 +7,6 @@
     <string name="partner">Partner</string>
     <string name="add_partner">Add partner</string>
     <string name="birthday">Birthday</string>
-    <string name="add_person">Add person</string>
+    <string name="save_person">Save person</string>
+    <string name="delete_person">Delete person</string>
 </resources>

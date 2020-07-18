@@ -78,6 +78,15 @@ class EditPersonViewModel @ViewModelInject constructor(private val database: Peo
         _navigateToFamilyFragment.value = true
     }
 
+    fun onDeletePerson() {
+        GlobalScope.launch {
+            _person.value?.let { person ->
+                database.deletePerson(person)
+            }
+        }
+        _navigateToFamilyFragment.value = true
+    }
+
     fun doneNavigating() {
         _showBirthdayPickerDialog.value = false
         _navigateToPartnerFragment.value = false
