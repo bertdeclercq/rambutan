@@ -6,6 +6,8 @@ apply plugin: "kotlin-kapt"
 
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
+apply plugin: "dagger.hilt.android.plugin"
+
 android {
     compileSdkVersion 30
     buildToolsVersion '30.0.0'
@@ -42,7 +44,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.0.5"
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.0.9"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
@@ -69,6 +71,12 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     // Kotlin extensions and coroutine support
     implementation "androidx.room:room-ktx:$room_version"
+
+    implementation "com.google.dagger:hilt-android:$hilt_gradle_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_gradle_version"
+
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_version"
 
     // Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
