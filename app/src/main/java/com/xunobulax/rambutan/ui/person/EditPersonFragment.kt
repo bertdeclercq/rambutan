@@ -11,19 +11,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.xunobulax.rambutan.R
-import com.xunobulax.rambutan.data.AppDatabase
 import com.xunobulax.rambutan.databinding.FragmentEditPersonBinding
-import com.xunobulax.rambutan.repositories.PeopleRepository
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class EditPersonFragment : Fragment() {
 
     private val viewModel: EditPersonViewModel by navGraphViewModels(R.id.edit_person_graph) {
-        EditPersonViewModelFactory(
-            PeopleRepository(
-                AppDatabase.getDatabase(requireContext()).personDao()
-            )
-        )
+        defaultViewModelProviderFactory
     }
 
     private val args: EditPersonFragmentArgs by navArgs()

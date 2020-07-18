@@ -1,17 +1,19 @@
 package com.xunobulax.rambutan.ui.person
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xunobulax.rambutan.data.PairRule
 import com.xunobulax.rambutan.data.Person
-import com.xunobulax.rambutan.repositories.PeopleRepository
+import com.xunobulax.rambutan.repository.PeopleRepository
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
 
-class EditPersonViewModel(private val database: PeopleRepository) : ViewModel() {
+class EditPersonViewModel @ViewModelInject constructor(private val database: PeopleRepository) : ViewModel() {
 
     private val _person = MutableLiveData<Person>()
     val person: LiveData<Person> = _person
@@ -19,11 +21,9 @@ class EditPersonViewModel(private val database: PeopleRepository) : ViewModel() 
     private val _partnerName = MutableLiveData<String?>()
     val partnerName: LiveData<String?> = _partnerName
 
-    val partnersList: LiveData<List<Person>> by lazy { database.getPotentialPartners() }
+    val partnersList: LiveData<List<Person>> by lazy { database.getPotentialPartnersFor(_person.value?.id ?: 0) }
 
-    private var partner: Person? = null
-
-    private var oldPartner: Person? = null
+    private var rule: PairRule? = null
 
     private val _showBirthdayPickerDialog = MutableLiveData<Boolean?>()
     val showBirthdayPickerDialog: LiveData<Boolean?> = _showBirthdayPickerDialog
@@ -40,12 +40,7 @@ class EditPersonViewModel(private val database: PeopleRepository) : ViewModel() 
 
     fun loadPerson(personId: Long) = viewModelScope.launch {
         _person.value = database.getPerson(personId)
-        _person.value?.let { person ->
-            if (person.hasPartner()) {
-                partner = database.getPerson(person.partnerId!!)
-                _partnerName.value = "${partner!!.firstName} ${partner!!.lastName}"
-            }
-        }
+        _partnerName.value = database.getPartnerNameOf(personId)
     }
 
     fun getYear(): Int = _person.value!!.birthday?.year ?: LocalDate.now().year
@@ -71,39 +66,16 @@ class EditPersonViewModel(private val database: PeopleRepository) : ViewModel() 
 
     fun onPartnerSet(partner: Person) {
         _partnerName.value = "${partner.firstName} ${partner.lastName}"
-        _person.value?.let { person ->
-            if (person.hasPartner()) {
-                oldPartner = partner
-            }
-            person.partnerId = partner.id
-        }
-        this.partner = partner
+        rule = PairRule(partnerId = partner.id, pairable = false)
     }
 
     fun onSavePerson() {
         GlobalScope.launch {
             _person.value?.let { person ->
-                if (person.id > 0L) {
-                    updatePerson(person)
-
-                    if (oldPartner != null) {
-                        oldPartner!!.partnerId = null
-                        updatePerson(oldPartner!!)
-                    }
-                } else {
-                    insertPerson(person)
-                }
+                database.savePerson(person, rule)
             }
         }
         _navigateToFamilyFragment.value = true
-    }
-
-    private suspend fun insertPerson(person: Person) {
-        database.insertPerson(person)
-    }
-
-    private suspend fun updatePerson(person: Person) {
-        database.updatePerson(person)
     }
 
     fun doneNavigating() {

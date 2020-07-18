@@ -11,20 +11,14 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.xunobulax.rambutan.adapters.PersonAdapter
 import com.xunobulax.rambutan.adapters.PersonListener
-import com.xunobulax.rambutan.data.AppDatabase
 import com.xunobulax.rambutan.databinding.FragmentFamilyBinding
-import com.xunobulax.rambutan.repositories.PeopleRepository
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class FamilyFragment : Fragment() {
 
-    private val viewModel: FamilyViewModel by viewModels {
-        FamilyViewModelFactory(
-            PeopleRepository(
-                AppDatabase.getDatabase(requireContext()).personDao()
-            )
-        )
-    }
+    private val viewModel: FamilyViewModel by viewModels()
 
     private val navController by lazy { findNavController() }
 

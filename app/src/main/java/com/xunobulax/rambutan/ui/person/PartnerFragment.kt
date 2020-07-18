@@ -12,20 +12,16 @@ import androidx.navigation.ui.setupWithNavController
 import com.xunobulax.rambutan.R
 import com.xunobulax.rambutan.adapters.PersonAdapter
 import com.xunobulax.rambutan.adapters.PersonListener
-import com.xunobulax.rambutan.data.AppDatabase
 import com.xunobulax.rambutan.databinding.FragmentPartnerBinding
-import com.xunobulax.rambutan.repositories.PeopleRepository
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_partner.view.*
 
 
+@AndroidEntryPoint
 class PartnerFragment : Fragment() {
 
     private val viewModel: EditPersonViewModel by navGraphViewModels(R.id.edit_person_graph) {
-        EditPersonViewModelFactory(
-            PeopleRepository(
-                AppDatabase.getDatabase(requireContext()).personDao()
-            )
-        )
+        defaultViewModelProviderFactory
     }
 
     private val navController by lazy { findNavController() }
@@ -38,7 +34,6 @@ class PartnerFragment : Fragment() {
 
         val adapter = PersonAdapter(PersonListener { partner ->
             viewModel.onPartnerSet(partner)
-//            viewModel.onPartnerPicked(partner)
             navController.navigate(PartnerFragmentDirections.actionPartnerFragmentToEditPersonFragment())
         })
         binding.lifecycleOwner = this
