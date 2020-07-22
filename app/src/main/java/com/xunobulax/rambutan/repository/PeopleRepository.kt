@@ -21,6 +21,17 @@ class PeopleRepository @Inject constructor(appDatabase: AppDatabase) {
             personDao.getPeople()
         }
 
+    suspend fun getPerson(personId: Long) = personDao.getPerson(personId)
+
+    suspend fun getPartnerNameOf(personId: Long): String {
+        val partnerId = pairRuleDao.getPartnerId(personId)
+        if (partnerId != null) {
+            val partner = personDao.getPerson(partnerId)
+            return "${partner.firstName} ${partner.lastName}"
+        }
+        return ""
+    }
+
     suspend fun savePerson(person: Person, rule: PairRule?) {
         val personId = if (person.id > 0L) {
             updatePerson(person)
@@ -35,21 +46,15 @@ class PeopleRepository @Inject constructor(appDatabase: AppDatabase) {
         }
     }
 
-    suspend fun getPerson(personId: Long) = personDao.getPerson(personId)
-
-    suspend fun getPartnerNameOf(personId: Long): String {
-        val partnerId = pairRuleDao.getPartnerId(personId)
-        if (partnerId != null) {
-            val partner = personDao.getPerson(partnerId)
-            return "${partner.firstName} ${partner.lastName}"
-        }
-        return ""
-    }
-
     private suspend fun insertPerson(person: Person) = personDao.insertPerson(person)
 
     private suspend fun updatePerson(person: Person) {
         personDao.updatePerson(person)
+    }
+
+    suspend fun getPairRulesMap(): Map<Long, Long> {
+        val rules = pairRuleDao.getPairRules()
+        return rules.map { it.personId to it.partnerId }.toMap()
     }
 
     private suspend fun insertRule(rule: PairRule) {

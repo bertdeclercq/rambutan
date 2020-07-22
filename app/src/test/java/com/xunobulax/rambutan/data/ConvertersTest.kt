@@ -1,5 +1,6 @@
 package com.xunobulax.rambutan.data
 
+import com.xunobulax.rambutan.utilities.Converters
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -11,7 +12,8 @@ class ConvertersTest {
 
     @Test
     fun dateToDatestamp() {
-        assertEquals(date.toEpochDay(), Converters().dateToDatestamp(date))
+        assertEquals(date.toEpochDay(), Converters()
+            .dateToDatestamp(date))
     }
 
     @Test

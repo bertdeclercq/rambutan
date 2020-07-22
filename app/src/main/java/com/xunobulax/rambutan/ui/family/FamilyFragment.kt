@@ -8,11 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.xunobulax.rambutan.R
 import com.xunobulax.rambutan.adapters.PersonAdapter
 import com.xunobulax.rambutan.adapters.PersonListener
 import com.xunobulax.rambutan.databinding.FragmentFamilyBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 @AndroidEntryPoint
@@ -23,6 +26,7 @@ class FamilyFragment : Fragment() {
     private val navController by lazy { findNavController() }
 
     private lateinit var addPersonFab: FloatingActionButton
+    private lateinit var topAppBar: MaterialToolbar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -31,6 +35,18 @@ class FamilyFragment : Fragment() {
         context ?: return binding.root
 
         addPersonFab = binding.addPersonFab
+        topAppBar = binding.toolbar
+        topAppBar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.start -> {
+                    // Handle start icon press
+                    Timber.d("Game started")
+                    viewModel.onStartGame()
+                    true
+                }
+                else -> false
+            }
+        }
 
         val adapter = PersonAdapter(PersonListener { person ->
             navController.navigate(

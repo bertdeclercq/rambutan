@@ -37,6 +37,9 @@ class PairRule @JvmOverloads constructor(
 @Dao
 interface PairRuleDao {
 
+    @Query("SELECT * FROM pair_rules")
+    suspend fun getPairRules(): List<PairRule>
+
     @Query("SELECT partner_id FROM pair_rules WHERE person_id = :personId AND NOT pairable")
     suspend fun getPartnerId(personId: Long): Long?
 

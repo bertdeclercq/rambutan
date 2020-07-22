@@ -3,6 +3,7 @@ package com.xunobulax.rambutan.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.xunobulax.rambutan.utilities.Converters
 
 
 @Database(

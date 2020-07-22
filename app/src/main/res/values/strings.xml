@@ -9,4 +9,6 @@
     <string name="birthday">Birthday</string>
     <string name="save_person">Save person</string>
     <string name="delete_person">Delete person</string>
+    <string name="start_game">Start game</string>
+    <string name="game">Game</string>
 </resources>
