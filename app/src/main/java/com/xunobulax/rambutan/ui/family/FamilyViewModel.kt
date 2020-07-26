@@ -3,13 +3,11 @@ package com.xunobulax.rambutan.ui.family
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.xunobulax.rambutan.data.Game
 import com.xunobulax.rambutan.data.Person
 import com.xunobulax.rambutan.repository.PeopleRepository
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
-import kotlin.random.Random
 
 
 class FamilyViewModel @ViewModelInject constructor(private val database: PeopleRepository) :
@@ -17,15 +15,15 @@ class FamilyViewModel @ViewModelInject constructor(private val database: PeopleR
 
     val people: LiveData<List<Person>> by lazy { database.getPeople() }
 
-    fun onStartGame() {
-        if (people.value == null) {
-            Timber.d("Will return")
-            return
-        }
+    private lateinit var rules: Map<Long, Long>
 
-        GlobalScope.launch {
-            Game().startGame(people.value!!, database.getPairRulesMap())
-        }
+    fun onStartGame() {
+        getRules()
+        Game().startGame(people.value!!, rules)
+    }
+
+    private fun getRules() = viewModelScope.launch {
+        rules = database.getPairRulesMap()
     }
 
 }
