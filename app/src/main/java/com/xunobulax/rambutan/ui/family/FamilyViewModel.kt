@@ -17,8 +17,8 @@ class FamilyViewModel @ViewModelInject constructor(private val database: PeopleR
 
     private lateinit var rules: Map<Long, Long>
 
-    fun onStartGame() {
-        getRules()
+    fun onStartGame() = viewModelScope.launch {
+        getRules().join()
         Game().startGame(people.value!!, rules)
     }
 

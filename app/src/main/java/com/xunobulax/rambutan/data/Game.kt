@@ -1,6 +1,12 @@
 package com.xunobulax.rambutan.data
 
+import com.xunobulax.rambutan.utilities.*
+import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
+import uk.co.jakebreen.sendgridandroid.SendGrid
+import uk.co.jakebreen.sendgridandroid.SendGridMail
+import uk.co.jakebreen.sendgridandroid.SendGridResponse
+import uk.co.jakebreen.sendgridandroid.SendTask
 
 
 class Game {
@@ -8,7 +14,7 @@ class Game {
     private lateinit var people: List<Person>
     private lateinit var rules: Map<Long, Long>
 
-    fun startGame(people: List<Person>, rules: Map<Long, Long>) {
+    suspend fun startGame(people: List<Person>, rules: Map<Long, Long>) {
         this.people = people
         this.rules = rules
         val pairs = pairPeople()
@@ -55,8 +61,28 @@ class Game {
         return person.id != target.id && target.id != rules[person.id]
     }
 
-    private fun sendEmail(pairs: Map<Person, Person>) {
-        pairs.forEach { (k, v) -> Timber.d("${k.firstName} buys for ${v.firstName}") }
+    private suspend fun sendEmail(pairs: Map<Person, Person>) {
+        val sg =
+            SendGrid.create(SENDGRID_API_KEY)
+
+        coroutineScope {
+            pairs.forEach { (k, v) ->
+                if (k.email!!.contains("@")) {
+                    val mail = SendGridMail()
+                    with(mail) {
+                        addRecipient(k.email!!, k.firstName)
+                        setFrom(EMAIL_FROM, NAME_FROM)
+                        setSubject(EMAIL_SUBJECT)
+                        setContent("You have to buy a gift for ${v.firstName}!")
+                    }
+
+                    val task = SendTask(sg, mail)
+                    val response: SendGridResponse = task.execute().get()
+                    Timber.d(response.code.toString())
+                }
+            }
+        }
+//        pairs.forEach { (k, v) -> Timber.d("${k.firstName} buys for ${v.firstName}") }
     }
 
 }
